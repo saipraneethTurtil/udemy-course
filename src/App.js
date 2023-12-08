@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import PersInfo from "./components/PersInfo";
+import { useState } from "react";
 
 function App() {
+  const [Obj, setObj] = useState({
+    count: 10,
+    bool: true,
+  });
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Counter : {Obj.count}</h1>
+      <button onClick={() => setObj({ ...Obj, count: Obj.count + 1 })}>
+        Increment
+      </button>
+      <button onClick={() => setObj({ ...Obj, count: Obj.count - 1 })}>
+        Decrement
+      </button>
+      <h1>{Obj.bool.toString()}</h1>
+      {/* <h1>{JSON.stringify(Obj)}</h1> */}
+      <button
+        onClick={() => {
+          setObj({ ...Obj, bool: !Obj.bool });
+        }}
+      >
+        Toggle
+      </button>
     </div>
   );
 }
