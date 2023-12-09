@@ -2,45 +2,46 @@ import logo from "./logo.svg";
 import "./App.css";
 import PersInfo from "./components/PersInfo";
 import { useState, useEffect } from "react";
+import ShowXY from "./components/ShowXY";
 
-// Conditional Rerendering
+// Use Effect Hook - Web Dev Simplified
 
-let gCnt = 0;
 function App() {
-  const [Obj, setObj] = useState({
-    cnt: 10,
-    flag: true,
-  });
+  const [type, setType] = useState("posts");
+  const [item, setItem] = useState([]);
   useEffect(() => {
-    console.log("Exection called ", gCnt++);
-  }, [Obj.cnt]);
-
+    console.log(type);
+    fetch(`https://jsonplaceholder.typicode.com/todos/1/${type}`)
+      .then((response) => response.json())
+      .then((json) => setItem(json));
+  }, [type]);
   return (
     <div className="App">
-      <h1>
-        {Obj.cnt}-{Obj.flag.toString()}
-      </h1>
       <button
         onClick={() => {
-          setObj({ ...Obj, cnt: Obj.cnt + 1 });
+          setType("posts");
         }}
       >
-        Increment
+        posts
       </button>
       <button
         onClick={() => {
-          setObj({ ...Obj, cnt: Obj.cnt - 1 });
+          setType("users");
         }}
       >
-        Decrement
+        users
       </button>
       <button
         onClick={() => {
-          setObj({ ...Obj, flag: !Obj.flag });
+          setType("comments");
         }}
       >
-        Toggle
+        comments
       </button>
+      <h1>{type}</h1>
+      {item.map((item) => {
+        return <pre>{JSON.stringify(item)}</pre>;
+      })}
     </div>
   );
 }
